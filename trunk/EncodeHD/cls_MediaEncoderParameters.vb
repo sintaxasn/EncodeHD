@@ -15,6 +15,7 @@
     Public Const DEVICE_NAME_IPODCLASSIC As String = "IPODCLASSIC"
     Public Const DEVICE_NAME_IPODNANO As String = "IPODNANO"
     Public Const DEVICE_NAME_IPODTOUCH As String = "IPODTOUCH"
+    Public Const DEVICE_NAME_NEXUSONE As String = "NEXUSONE"
     Public Const DEVICE_NAME_NOKIAE71 As String = "NOKIAE71"
     Public Const DEVICE_NAME_PLAYSTATION3 As String = "PLAYSTATION3"
     Public Const DEVICE_NAME_PSP As String = "PSP"
@@ -165,6 +166,10 @@
     Private SPEC_IPODTOUCH_AUDIO_CODECS_SUPPORTED As String() = {"AAC"}
     Private SPEC_IPODTOUCH_VIDEO_TVOUTPUT_SUPPORTED As Boolean = True
 
+    Private SPEC_NEXUSONE_VIDEO_CODECS_SUPPORTED As String() = {"MPEG4", "H264"}
+    Private SPEC_NEXUSONE_AUDIO_CODECS_SUPPORTED As String() = {"AAC"}
+    Private SPEC_NEXUSONE_VIDEO_TVOUTPUT_SUPPORTED As Boolean = False
+
     Private SPEC_NOKIAE71_VIDEO_CODECS_SUPPORTED As String() = {"MPEG4", "H264"}
     Private SPEC_NOKIAE71_AUDIO_CODECS_SUPPORTED As String() = {"AAC"}
     Private SPEC_NOKIAE71_VIDEO_TVOUTPUT_SUPPORTED As Boolean = False
@@ -248,6 +253,8 @@
                     _str_SupportedCodecs = SPEC_IPODNANO_VIDEO_CODECS_SUPPORTED
                 Case DEVICE_NAME_IPODTOUCH
                     _str_SupportedCodecs = SPEC_IPODTOUCH_VIDEO_CODECS_SUPPORTED
+                Case DEVICE_NAME_NEXUSONE
+                    _str_SupportedCodecs = SPEC_NEXUSONE_VIDEO_CODECS_SUPPORTED
                 Case DEVICE_NAME_NOKIAE71
                     _str_SupportedCodecs = SPEC_NOKIAE71_VIDEO_CODECS_SUPPORTED
                 Case DEVICE_NAME_PLAYSTATION3
@@ -945,6 +952,22 @@
 
                 _stc_EncodingSpecifications.AUDIO_AAC_BITRATE_MAX = 160
                 _stc_EncodingSpecifications.AUDIO_AAC_SAMPLERATE_MAX = 48000
+                _stc_EncodingSpecifications.AUDIO_AAC_CHANNELS_MAX = 2
+
+            Case DEVICE_NAME_NEXUSONE
+
+                _stc_EncodingSpecifications.VIDEO_H264_FPS_30_RESOLUTION_WIDTH_MAX = 800
+                _stc_EncodingSpecifications.VIDEO_H264_FPS_30_RESOLUTION_HEIGHT_MAX = 480
+                _stc_EncodingSpecifications.VIDEO_MPEG4_FPS_30_RESOLUTION_WIDTH_MAX = 800
+                _stc_EncodingSpecifications.VIDEO_MPEG4_FPS_30_RESOLUTION_HEIGHT_MAX = 480
+
+                _stc_EncodingSpecifications.VIDEO_H264_PROFILE_LEVEL = 30
+                _stc_EncodingSpecifications.VIDEO_H264_PROFILE_LOWCOMPLEXITY = True
+                _stc_EncodingSpecifications.VIDEO_H264_BITRATE_MAX = 2000
+                _stc_EncodingSpecifications.VIDEO_MPEG4_BITRATE_MAX = 2500
+
+                _stc_EncodingSpecifications.AUDIO_AAC_BITRATE_MAX = 160
+                _stc_EncodingSpecifications.AUDIO_AAC_SAMPLERATE_MAX = 44100
                 _stc_EncodingSpecifications.AUDIO_AAC_CHANNELS_MAX = 2
 
             Case DEVICE_NAME_NOKIAE71

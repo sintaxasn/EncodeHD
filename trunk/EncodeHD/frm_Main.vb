@@ -285,6 +285,8 @@ Public Class frm_Main
                 EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_IPODNANO
             Case "iPod Touch"
                 EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_IPODTOUCH
+            Case "Nexus One"
+                EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_NEXUSONE
             Case "Nokia E71"
                 EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_NOKIAE71
             Case "Playstation 3"
@@ -495,6 +497,8 @@ Public Class frm_Main
                         toolStripStatusLabel.Text = "Encoding File " & int_CurrentFileNumber & " of " & listView.Items.Count & " ... " & MediaEncoder.PercentComplete & "% Complete"
                     ElseIf MediaEncoder.TimeRemaining < 1 Then ' If the Time Remaining is under 1 minute, format for seconds remaining
                         toolStripStatusLabel.Text = "Encoding File " & int_CurrentFileNumber & " of " & listView.Items.Count & " ... " & MediaEncoder.PercentComplete & "% Complete. Time Remaining: " & FormatNumber((MediaEncoder.TimeRemaining * 60), 0) & " seconds"
+                    ElseIf MediaEncoder.TimeRemaining >= 60 Then ' If the Time Remaining is equal/over 1 hour, format for hours and minutes remaining
+                        toolStripStatusLabel.Text = "Encoding File " & int_CurrentFileNumber & " of " & listView.Items.Count & " ... " & MediaEncoder.PercentComplete & "% Complete. Time Remaining: " & FormatNumber((MediaEncoder.TimeRemaining / 60), 0) & " hour(s)" & FormatNumber((MediaEncoder.TimeRemaining Mod 60), 2, TriState.False) & " minute(s)"
                     Else ' Otherwise format for minutes remaining
                         toolStripStatusLabel.Text = "Encoding File " & int_CurrentFileNumber & " of " & listView.Items.Count & " ... " & MediaEncoder.PercentComplete & "% Complete. Time Remaining: " & FormatNumber(MediaEncoder.TimeRemaining, 0) & " minute(s)"
                     End If
@@ -839,6 +843,7 @@ Public Class frm_Main
                             blnFileSupported = True
                         End If
                     Next
+
                     ' If yes, add the file, otherwise ignore
                     If blnFileSupported Then
                         sub_DebugMessage("Adding File: " & strFile)
@@ -846,6 +851,7 @@ Public Class frm_Main
                     Else
                         sub_DebugMessage("Ignoring File: " & strFile)
                     End If
+                    Continue For
                 End If
 
                 ' Output File Name
@@ -878,6 +884,7 @@ Public Class frm_Main
                             Exit Sub
                         End If
                     End If
+                    Continue For
                 End If
 
                 ' Automatic Mode
@@ -891,6 +898,7 @@ Public Class frm_Main
                     Else
                         sub_DebugMessage("Automatic Mode requires at least one input file be specified", True, MsgBoxStyle.Exclamation, False)
                     End If
+                    Continue For
                 End If
 
                 ' Quit On Finish
@@ -898,6 +906,7 @@ Public Class frm_Main
                 If col_CommandLineArguments(int_Count).ToUpper.Contains(str_CommandLineMatchTemp) Then
                     sub_DebugMessage("Match: Quit On Finish")
                     bln_SettingsSessionQuitOnFinishMode = True
+                    Continue For
                 End If
 
                 ' Shutdown On Finish
@@ -905,6 +914,7 @@ Public Class frm_Main
                 If col_CommandLineArguments(int_Count).ToUpper.Contains(str_CommandLineMatchTemp) Then
                     sub_DebugMessage("Match: Shutdown On Finish")
                     bln_SettingsSessionQuitOnFinishMode = True
+                    Continue For
                 End If
 
                 ' Video Stitch Mode
@@ -912,6 +922,7 @@ Public Class frm_Main
                 If col_CommandLineArguments(int_Count).ToUpper.Contains(str_CommandLineMatchTemp) Then
                     sub_DebugMessage("Match: Video Stitch Mode")
                     bln_SettingsSessionStitchMode = True
+                    Continue For
                 End If
 
                 ' Low Priority Encoding Mode
@@ -919,6 +930,7 @@ Public Class frm_Main
                 If col_CommandLineArguments(int_Count).ToUpper.Contains(str_CommandLineMatchTemp) Then
                     sub_DebugMessage("Match: Low Priority Encoding Mode")
                     str_SettingsSessionPriority = "Low"
+                    Continue For
                 End If
 
                 ' High Priority Encoding Mode
@@ -926,6 +938,109 @@ Public Class frm_Main
                 If col_CommandLineArguments(int_Count).ToUpper.Contains(str_CommandLineMatchTemp) Then
                     sub_DebugMessage("Match: High Priority Encoding Mode")
                     str_SettingsSessionPriority = "High"
+                    Continue For
+                End If
+
+                ' H264 On/Off
+                str_CommandLineMatchTemp = "/H264:"
+                If col_CommandLineArguments(int_Count).ToUpper.Contains(str_CommandLineMatchTemp) Then
+                    sub_DebugMessage("Match: Changing H264 Setting")
+
+                    ' Get the Parameter
+                    Dim strYN As String = col_CommandLineArguments(int_Count).Remove(0, str_CommandLineMatchTemp.Length)
+
+                    ' If yes/no, change setting. Otherwise, Ignore.
+                    If strYN.ToUpper = "Y" Then
+                        sub_DebugMessage("Setting H264 - ON")
+                        bln_SettingsUIH264EncodingChecked = True
+                    ElseIf strYN.ToUpper = "N" Then
+                        sub_DebugMessage("Setting H264 - OFF")
+                        bln_SettingsUIH264EncodingChecked = False
+                    Else
+                        sub_DebugMessage("Invalid H264 Parameter - Ignoring")
+                    End If
+                    Continue For
+                End If
+
+                ' For TV On/Off
+                str_CommandLineMatchTemp = "/TV:"
+                If col_CommandLineArguments(int_Count).ToUpper.Contains(str_CommandLineMatchTemp) Then
+                    sub_DebugMessage("Match: Changing TV Setting")
+
+                    ' Get the Parameter
+                    Dim strYN As String = col_CommandLineArguments(int_Count).Remove(0, str_CommandLineMatchTemp.Length)
+
+                    ' If yes/no, change setting. Otherwise, Ignore.
+                    If strYN.ToUpper = "Y" Then
+                        sub_DebugMessage("Setting TV - ON")
+                        bln_SettingsUIOutputForTVChecked = True
+                    ElseIf strYN.ToUpper = "N" Then
+                        sub_DebugMessage("Setting TV - OFF")
+                        bln_SettingsUIOutputForTVChecked = False
+                    Else
+                        sub_DebugMessage("Invalid TV Parameter - Ignoring")
+                    End If
+                    Continue For
+                End If
+
+                ' Split Video On/Off
+                str_CommandLineMatchTemp = "/SPLIT:"
+                If col_CommandLineArguments(int_Count).ToUpper.Contains(str_CommandLineMatchTemp) Then
+                    sub_DebugMessage("Match: Changing Split Setting")
+
+                    ' Get the Parameter
+                    Dim strYN As String = col_CommandLineArguments(int_Count).Remove(0, str_CommandLineMatchTemp.Length)
+
+                    ' If yes/no, change setting. Otherwise, Ignore.
+                    If strYN.ToUpper = "Y" Then
+                        sub_DebugMessage("Setting Split - ON")
+                        bln_SettingsUIAutoSplitChecked = True
+                    ElseIf strYN.ToUpper = "N" Then
+                        sub_DebugMessage("Setting Split - OFF")
+                        bln_SettingsUIAutoSplitChecked = False
+                    Else
+                        sub_DebugMessage("Invalid Split Parameter - Ignoring")
+                    End If
+                    Continue For
+                End If
+
+                ' AC3 Passthrough On/Off
+                str_CommandLineMatchTemp = "/AC3:"
+                If col_CommandLineArguments(int_Count).ToUpper.Contains(str_CommandLineMatchTemp) Then
+                    sub_DebugMessage("Match: Changing AC3 Setting")
+
+                    ' Get the Parameter
+                    Dim strYN As String = col_CommandLineArguments(int_Count).Remove(0, str_CommandLineMatchTemp.Length)
+
+                    ' If yes/no, change setting. Otherwise, Ignore.
+                    If strYN.ToUpper = "Y" Then
+                        sub_DebugMessage("Setting AC3 - ON")
+                        bln_SettingsUIAC3PassthroughChecked = True
+                    ElseIf strYN.ToUpper = "N" Then
+                        sub_DebugMessage("Setting AC3 - OFF")
+                        bln_SettingsUIAC3PassthroughChecked = False
+                    Else
+                        sub_DebugMessage("Invalid AC3 Parameter - Ignoring")
+                    End If
+                    Continue For
+                End If
+
+                ' Set Conversion Device
+                str_CommandLineMatchTemp = "/CD:"
+                If col_CommandLineArguments(int_Count).ToUpper.Contains(str_CommandLineMatchTemp) Then
+                    sub_DebugMessage("Match: Changing Conversion Device Setting")
+
+                    ' Get the Parameter
+                    Dim strCD As String = col_CommandLineArguments(int_Count).Remove(0, str_CommandLineMatchTemp.Length)
+
+                    ' Check if valid conversion device number
+                    If Convert.ToInt32(strCD) <= cbx_ConversionDevice.Items.Count Then
+                        sub_DebugMessage("Setting Conversion Device - " + strCD)
+                        int_SettingsUIConversionDevice = Convert.ToInt32(strCD)
+                    Else ' Invalid Conversion Device
+                        sub_DebugMessage("Invalid Conversion Device Parameter - " + strCD + " was supplied.")
+                    End If
+                    Continue For
                 End If
 
                 sub_DebugMessage()

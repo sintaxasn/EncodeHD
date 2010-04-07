@@ -67,6 +67,10 @@ Module mdl_Globals
             bln_SettingsSessionQuitOnFinishMode = False
         End If
 
+        ' Save the information for use by BugzScout if necessary
+        'str_BugzScoutDescription = str_DebugMessage
+        'str_DebugMessage = "[" & DateTime.Now & "] " & str_DebugMessage
+        'str_BugzScoutExtraInfo = str_BugzScoutExtraInfo & str_DebugMessage & vbCrLf
         ' Write to the external logfile if running in Debug Mode
         If bln_SettingsDebugMode And Not obj_LogFile Is Nothing Then
             obj_LogFile.WriteLine(str_DebugMessage)
