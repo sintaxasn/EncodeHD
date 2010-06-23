@@ -39,7 +39,7 @@ Public Class cls_MediaEncoder
     Public Const FFMPEG_CODEC_VIDEO_MPEG4 As String = "mpeg4"
     Public Const FFMPEG_CODEC_VIDEO_AVI As String = "libxvid"
     Public Const FFMPEG_CODEC_AUDIO_AAC As String = "libfaac"
-    ' Public Const FFMPEG_CODEC_AUDIO_AAC As String = "aac"
+    ' Public Const FFMPEG_CODEC_AUDIO_AAC As String = "aac -strict experimental"
     Public Const FFMPEG_CODEC_AUDIO_AC3 As String = "ac3"
     Public Const FFMPEG_CODEC_AUDIO_MP3 As String = "libmp3lame"
 
@@ -453,6 +453,7 @@ Public Class cls_MediaEncoder
             sub_DebugMessage("Setting up " & _str_AppExecutable & " parameters...")
 
             ' Set up the initial arguments
+            ' _str_AppArguments = _str_AppArguments & FFMPEG_OPTIONS_COMMENT
             _str_AppArguments = _str_AppArguments & FFMPEG_OPTIONS_OVERWRITEEXISTINGFILES
 
             ' Add each input file to the command-line
@@ -527,7 +528,7 @@ Public Class cls_MediaEncoder
                                 _str_AppArguments = _str_AppArguments & " -acodec copy"
                             Else
                                 _str_AppArguments = _str_AppArguments & " -acodec " & cls_MediaEncoder.FFMPEG_CODEC_AUDIO_AAC
-                                _str_AppArguments = _str_AppArguments & " -ac 2"
+                                ' _str_AppArguments = _str_AppArguments & " -ac 2"
                                 _str_AppArguments = _str_AppArguments & " -ar " & _int_EncoderAudioSampleRate
                                 _str_AppArguments = _str_AppArguments & " -ab " & _int_EncoderAudioBitRate & "k"
                             End If
@@ -650,7 +651,7 @@ Public Class cls_MediaEncoder
             End If
 
             ' Get the current file size (so we can determine if the file is encoding properly)
-            If strProgress.ToUpper.Contains("SIZE=") Then
+            If strProgress.ToUpper.Contains("SIZE=") And Not strProgress.ToUpper.Contains("LIBX264 @") Then
                 Dim _str_EncodingSize As String = strProgress.Trim.Substring(strProgress.ToUpper.IndexOf("SIZE=") + 5, 8)
                 Dim _int_encodingSize As Integer = CInt(_str_EncodingSize.ToUpper.Trim.Replace("KB", Nothing).Replace(".", Nothing))
                 If _int_encodingSize = 0 Then

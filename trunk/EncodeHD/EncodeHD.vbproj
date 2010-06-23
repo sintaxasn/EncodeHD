@@ -114,12 +114,6 @@
     <Compile Include="frm_Advanced.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frm_BugReport.Designer.vb">
-      <DependentUpon>frm_BugReport.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frm_BugReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="frm_Main.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -154,9 +148,6 @@
     <EmbeddedResource Include="frm_Advanced.resx">
       <DependentUpon>frm_Advanced.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frm_BugReport.resx">
-      <DependentUpon>frm_BugReport.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="frm_Main.resx">
       <DependentUpon>frm_Main.vb</DependentUpon>
     </EmbeddedResource>
@@ -181,38 +172,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AtomicParsley.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="EncodeHD.ico" />
-    <Content Include="ffmpeg.exe">
+    <Content Include="SnarlConnector.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="ffmpeg_buildnotes.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="COPYING.GPLv2">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Images\Paypal.gif" />
     <None Include="Images\imageTitleLeft.jpg" />
     <None Include="Images\imageTitleMiddle.jpg" />
     <None Include="Images\imageTitleRight.jpg" />
-    <Content Include="js32.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="MediaInfo.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="MP4Box.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SnarlConnector.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="zlib1.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

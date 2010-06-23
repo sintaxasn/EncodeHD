@@ -10,7 +10,10 @@
     Public Const DEVICE_NAME_BLACKBERRY8900 As String = "BLACKBERRY8900"
     Public Const DEVICE_NAME_BLACKBERRY9000 As String = "BLACKBERRY9000"
     Public Const DEVICE_NAME_BLACKBERRY9500 As String = "BLACKBERRY9500"
+    Public Const DEVICE_NAME_HTCEVO4G As String = "HTOEVO4G"
+    Public Const DEVICE_NAME_IPAD As String = "IPAD"
     Public Const DEVICE_NAME_IPHONE As String = "IPHONE"
+    Public Const DEVICE_NAME_IPHONE4 As String = "IPHONE4"
     Public Const DEVICE_NAME_IPOD5G As String = "IPOD5G"
     Public Const DEVICE_NAME_IPODCLASSIC As String = "IPODCLASSIC"
     Public Const DEVICE_NAME_IPODNANO As String = "IPODNANO"
@@ -146,9 +149,21 @@
     Private SPEC_BLACKBERRY9500_AUDIO_CODECS_SUPPORTED As String() = {"AAC"}
     Private SPEC_BLACKBERRY9500_VIDEO_TVOUTPUT_SUPPORTED As Boolean = False
 
+    Private SPEC_HTCEVO4G_VIDEO_CODECS_SUPPORTED As String() = {"MPEG4", "H264"}
+    Private SPEC_HTCEVO4G_AUDIO_CODECS_SUPPORTED As String() = {"AAC"}
+    Private SPEC_HTCEVO4G_VIDEO_TVOUTPUT_SUPPORTED As Boolean = True
+
+    Private SPEC_IPAD_VIDEO_CODECS_SUPPORTED As String() = {"MPEG4", "H264"}
+    Private SPEC_IPAD_AUDIO_CODECS_SUPPORTED As String() = {"AAC"}
+    Private SPEC_IPAD_VIDEO_TVOUTPUT_SUPPORTED As Boolean = True
+
     Private SPEC_IPHONE_VIDEO_CODECS_SUPPORTED As String() = {"MPEG4", "H264"}
     Private SPEC_IPHONE_AUDIO_CODECS_SUPPORTED As String() = {"AAC"}
     Private SPEC_IPHONE_VIDEO_TVOUTPUT_SUPPORTED As Boolean = True
+
+    Private SPEC_IPHONE4_VIDEO_CODECS_SUPPORTED As String() = {"MPEG4", "H264"}
+    Private SPEC_IPHONE4_AUDIO_CODECS_SUPPORTED As String() = {"AAC"}
+    Private SPEC_IPHONE4_VIDEO_TVOUTPUT_SUPPORTED As Boolean = True
 
     Private SPEC_IPOD5G_VIDEO_CODECS_SUPPORTED As String() = {"MPEG4", "H264"}
     Private SPEC_IPOD5G_AUDIO_CODECS_SUPPORTED As String() = {"AAC"}
@@ -243,8 +258,14 @@
                     _str_SupportedCodecs = SPEC_BLACKBERRY9000_VIDEO_CODECS_SUPPORTED
                 Case DEVICE_NAME_BLACKBERRY9500
                     _str_SupportedCodecs = SPEC_BLACKBERRY9500_VIDEO_CODECS_SUPPORTED
+                Case DEVICE_NAME_HTCEVO4G
+                    _str_SupportedCodecs = SPEC_HTCEVO4G_VIDEO_CODECS_SUPPORTED
+                Case DEVICE_NAME_IPAD
+                    _str_SupportedCodecs = SPEC_IPAD_VIDEO_CODECS_SUPPORTED
                 Case DEVICE_NAME_IPHONE
                     _str_SupportedCodecs = SPEC_IPHONE_VIDEO_CODECS_SUPPORTED
+                Case DEVICE_NAME_IPHONE4
+                    _str_SupportedCodecs = SPEC_IPHONE4_VIDEO_CODECS_SUPPORTED
                 Case DEVICE_NAME_IPOD5G
                     _str_SupportedCodecs = SPEC_IPOD5G_VIDEO_CODECS_SUPPORTED
                 Case DEVICE_NAME_IPODCLASSIC
@@ -297,7 +318,7 @@
         Get
             ' Enumrate the type of device
             Select Case _str_Output_Device
-                Case DEVICE_NAME_IPHONE, DEVICE_NAME_IPOD5G, DEVICE_NAME_IPODCLASSIC, DEVICE_NAME_IPODNANO, DEVICE_NAME_IPODTOUCH, DEVICE_NAME_ZUNE, DEVICE_NAME_ZUNEHD
+                Case DEVICE_NAME_IPAD, DEVICE_NAME_IPHONE, DEVICE_NAME_IPOD5G, DEVICE_NAME_IPODCLASSIC, DEVICE_NAME_IPODNANO, DEVICE_NAME_IPODTOUCH, DEVICE_NAME_ZUNE, DEVICE_NAME_ZUNEHD
                     Return True
             End Select
 
@@ -809,17 +830,17 @@
 
         ' Check if all of the input video settings are the same as the output
         Dim _bln_Output_Video_Copy As Boolean = False
-        'If _int_Input_Video_BitRate = _int_Output_Video_BitRate And _
-        '    _int_Input_Video_Height = _int_Output_Video_Height And _
-        '    _int_Input_Video_Width = _int_Output_Video_Width And _
-        '    _dbl_Input_Video_FPS = _dbl_Output_Video_FPS Then
-        '    ' Check the codecs to see if they match
-        '    If (_bln_Output_Video_Codec_H264Enabled And _str_Input_Video_Codec.ToUpper.Contains("AVC")) Or _
-        '        (Not _bln_Output_Video_Codec_H264Enabled And _str_Input_Video_Codec = "MPEG4") Then
-        '        sub_DebugMessage("The input video is the same as the intended output. The video stream will be copied from the source file")
-        '        _bln_Output_Video_Copy = True
-        '    End If
-        'End If
+        If _int_Input_Video_BitRate = _int_Output_Video_BitRate And _
+            _int_Input_Video_Height = _int_Output_Video_Height And _
+            _int_Input_Video_Width = _int_Output_Video_Width And _
+            _dbl_Input_Video_FPS = _dbl_Output_Video_FPS Then
+            ' Check the codecs to see if they match
+            If (_bln_Output_Video_Codec_H264Enabled And _str_Input_Video_Codec.ToUpper.Contains("AVC")) Or _
+                (Not _bln_Output_Video_Codec_H264Enabled And _str_Input_Video_Codec = "MPEG4") Then
+                sub_DebugMessage("The input video is the same as the intended output. The video stream will be copied from the source file")
+                _bln_Output_Video_Copy = True
+            End If
+        End If
 
         If _bln_Output_Video_Copy Then
             _str_Output_Video_Codec = "COPY"
@@ -854,11 +875,11 @@
                 _stc_EncodingSpecifications.VIDEO_H264_BITRATE_MAX = 5000
                 _stc_EncodingSpecifications.VIDEO_MPEG4_BITRATE_MAX = 3000
 
-                _stc_EncodingSpecifications.AUDIO_AAC_BITRATE_MAX = 160
+                _stc_EncodingSpecifications.AUDIO_AAC_BITRATE_MAX = 320
                 _stc_EncodingSpecifications.AUDIO_AAC_SAMPLERATE_MAX = 48000
                 _stc_EncodingSpecifications.AUDIO_AAC_CHANNELS_MAX = 2
 
-                _stc_EncodingSpecifications.AUDIO_AC3_BITRATE_MAX = 160
+                _stc_EncodingSpecifications.AUDIO_AC3_BITRATE_MAX = 320
                 _stc_EncodingSpecifications.AUDIO_AC3_SAMPLERATE_MAX = 48000
                 _stc_EncodingSpecifications.AUDIO_AC3_CHANNELS_MAX = 6
 
@@ -902,6 +923,52 @@
                 _stc_EncodingSpecifications.AUDIO_AAC_SAMPLERATE_MAX = 44100
                 _stc_EncodingSpecifications.AUDIO_AAC_CHANNELS_MAX = 2
 
+            Case DEVICE_NAME_HTCEVO4G
+
+                If _bln_Output_Video_Resolution_OutputForTV Then
+                    _stc_EncodingSpecifications.VIDEO_H264_FPS_30_RESOLUTION_WIDTH_MAX = 1280
+                    _stc_EncodingSpecifications.VIDEO_H264_FPS_30_RESOLUTION_HEIGHT_MAX = 720
+                    _stc_EncodingSpecifications.VIDEO_MPEG4_FPS_30_RESOLUTION_WIDTH_MAX = 640
+                    _stc_EncodingSpecifications.VIDEO_MPEG4_FPS_30_RESOLUTION_HEIGHT_MAX = 480
+                Else
+                    _stc_EncodingSpecifications.VIDEO_H264_FPS_30_RESOLUTION_WIDTH_MAX = 800
+                    _stc_EncodingSpecifications.VIDEO_H264_FPS_30_RESOLUTION_HEIGHT_MAX = 480
+                    _stc_EncodingSpecifications.VIDEO_MPEG4_FPS_30_RESOLUTION_WIDTH_MAX = 800
+                    _stc_EncodingSpecifications.VIDEO_MPEG4_FPS_30_RESOLUTION_HEIGHT_MAX = 480
+                End If
+
+                _stc_EncodingSpecifications.VIDEO_H264_PROFILE_LEVEL = 31
+                _stc_EncodingSpecifications.VIDEO_H264_BITRATE_MAX = 1500
+                _stc_EncodingSpecifications.VIDEO_MPEG4_BITRATE_MAX = 2500
+
+                _stc_EncodingSpecifications.AUDIO_AAC_BITRATE_MAX = 320
+                _stc_EncodingSpecifications.AUDIO_AAC_SAMPLERATE_MAX = 48000
+                _stc_EncodingSpecifications.AUDIO_AAC_CHANNELS_MAX = 2
+
+            Case DEVICE_NAME_IPAD
+
+                _stc_EncodingSpecifications.VIDEO_FILE_EXTENSION = "M4V"
+
+                If _bln_Output_Video_Resolution_OutputForTV Then
+                    _stc_EncodingSpecifications.VIDEO_H264_FPS_30_RESOLUTION_WIDTH_MAX = 1280
+                    _stc_EncodingSpecifications.VIDEO_H264_FPS_30_RESOLUTION_HEIGHT_MAX = 720
+                    _stc_EncodingSpecifications.VIDEO_MPEG4_FPS_30_RESOLUTION_WIDTH_MAX = 640
+                    _stc_EncodingSpecifications.VIDEO_MPEG4_FPS_30_RESOLUTION_HEIGHT_MAX = 480
+                Else
+                    _stc_EncodingSpecifications.VIDEO_H264_FPS_30_RESOLUTION_WIDTH_MAX = 1024
+                    _stc_EncodingSpecifications.VIDEO_H264_FPS_30_RESOLUTION_HEIGHT_MAX = 768
+                    _stc_EncodingSpecifications.VIDEO_MPEG4_FPS_30_RESOLUTION_WIDTH_MAX = 640
+                    _stc_EncodingSpecifications.VIDEO_MPEG4_FPS_30_RESOLUTION_HEIGHT_MAX = 480
+                End If
+
+                _stc_EncodingSpecifications.VIDEO_H264_PROFILE_LEVEL = 31
+                _stc_EncodingSpecifications.VIDEO_H264_BITRATE_MAX = 5000
+                _stc_EncodingSpecifications.VIDEO_MPEG4_BITRATE_MAX = 2500
+
+                _stc_EncodingSpecifications.AUDIO_AAC_BITRATE_MAX = 320
+                _stc_EncodingSpecifications.AUDIO_AAC_SAMPLERATE_MAX = 48000
+                _stc_EncodingSpecifications.AUDIO_AAC_CHANNELS_MAX = 2
+
             Case DEVICE_NAME_IPHONE, DEVICE_NAME_IPODTOUCH
 
                 _stc_EncodingSpecifications.VIDEO_FILE_EXTENSION = "M4V"
@@ -925,6 +992,30 @@
                 _stc_EncodingSpecifications.VIDEO_MPEG4_BITRATE_MAX = 2500
 
                 _stc_EncodingSpecifications.AUDIO_AAC_BITRATE_MAX = 160
+                _stc_EncodingSpecifications.AUDIO_AAC_SAMPLERATE_MAX = 48000
+                _stc_EncodingSpecifications.AUDIO_AAC_CHANNELS_MAX = 2
+
+            Case DEVICE_NAME_IPHONE4
+
+                _stc_EncodingSpecifications.VIDEO_FILE_EXTENSION = "M4V"
+
+                If _bln_Output_Video_Resolution_OutputForTV Then
+                    _stc_EncodingSpecifications.VIDEO_H264_FPS_30_RESOLUTION_WIDTH_MAX = 1280
+                    _stc_EncodingSpecifications.VIDEO_H264_FPS_30_RESOLUTION_HEIGHT_MAX = 720
+                    _stc_EncodingSpecifications.VIDEO_MPEG4_FPS_30_RESOLUTION_WIDTH_MAX = 640
+                    _stc_EncodingSpecifications.VIDEO_MPEG4_FPS_30_RESOLUTION_HEIGHT_MAX = 480
+                Else
+                    _stc_EncodingSpecifications.VIDEO_H264_FPS_30_RESOLUTION_WIDTH_MAX = 960
+                    _stc_EncodingSpecifications.VIDEO_H264_FPS_30_RESOLUTION_HEIGHT_MAX = 640
+                    _stc_EncodingSpecifications.VIDEO_MPEG4_FPS_30_RESOLUTION_WIDTH_MAX = 640
+                    _stc_EncodingSpecifications.VIDEO_MPEG4_FPS_30_RESOLUTION_HEIGHT_MAX = 480
+                End If
+
+                _stc_EncodingSpecifications.VIDEO_H264_PROFILE_LEVEL = 31
+                _stc_EncodingSpecifications.VIDEO_H264_BITRATE_MAX = 5000
+                _stc_EncodingSpecifications.VIDEO_MPEG4_BITRATE_MAX = 2500
+
+                _stc_EncodingSpecifications.AUDIO_AAC_BITRATE_MAX = 320
                 _stc_EncodingSpecifications.AUDIO_AAC_SAMPLERATE_MAX = 48000
                 _stc_EncodingSpecifications.AUDIO_AAC_CHANNELS_MAX = 2
 
@@ -997,7 +1088,7 @@
                 _stc_EncodingSpecifications.VIDEO_H264_BITRATE_MAX = 10000
                 _stc_EncodingSpecifications.VIDEO_MPEG4_BITRATE_MAX = 5000
 
-                _stc_EncodingSpecifications.AUDIO_AAC_BITRATE_MAX = 160
+                _stc_EncodingSpecifications.AUDIO_AAC_BITRATE_MAX = 320
                 _stc_EncodingSpecifications.AUDIO_AAC_SAMPLERATE_MAX = 48000
                 _stc_EncodingSpecifications.AUDIO_AAC_CHANNELS_MAX = 2
 
@@ -1048,7 +1139,7 @@
                 _stc_EncodingSpecifications.VIDEO_H264_BITRATE_MAX = 10000
                 _stc_EncodingSpecifications.VIDEO_MPEG4_BITRATE_MAX = 5000
 
-                _stc_EncodingSpecifications.AUDIO_AAC_BITRATE_MAX = 160
+                _stc_EncodingSpecifications.AUDIO_AAC_BITRATE_MAX = 320
                 _stc_EncodingSpecifications.AUDIO_AAC_SAMPLERATE_MAX = 48000
                 _stc_EncodingSpecifications.AUDIO_AAC_CHANNELS_MAX = 2
 

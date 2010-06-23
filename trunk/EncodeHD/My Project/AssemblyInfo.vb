@@ -12,7 +12,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("Simple encoding in a market with too many options!")> 
 <Assembly: AssemblyCompany("dcunningham.net")> 
 <Assembly: AssemblyProduct("EncodeHD")> 
-<Assembly: AssemblyCopyright("Copyright © dcunningham.net 2009")> 
+<Assembly: AssemblyCopyright("Copyright © dcunningham.net 2010")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>
@@ -32,4 +32,4 @@ Imports System.Runtime.InteropServices
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
 <Assembly: AssemblyVersion("1.1.0.0")> 
-<Assembly: AssemblyFileVersion("1.1.182.0")> 
+<Assembly: AssemblyFileVersion("1.2.206.0")> 

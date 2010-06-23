@@ -13,7 +13,8 @@ Module mdl_Globals
     Public str_OSArchitecture As String = Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE")
 
     ' Application Information
-    Public arr_RequiredComponents() As String = {"ffmpeg.exe", "mediainfo.dll", "AtomicParsley.Exe", "MP4Box.Exe", "JS32.DLL", "ZLib1.DLL"}
+    Public arr_RequiredComponents() As String = {"ffmpeg.exe", "mediainfo.dll", "snarlconnector.dll", "atomicparsley.exe", "mp4box.exe", "libgpac.dll", "zlib1.dll"}
+    Public arr_RequiredNonGPLComponents() As String = {"libfaac.dll"}
 
     Public str_AppFolder As String = My.Application.Info.DirectoryPath
     Public str_LogFolder As String = Path.Combine(My.Computer.FileSystem.SpecialDirectories.MyDocuments, "EncodeHD Log Files")

@@ -1,10 +1,11 @@
-Just a few notes about the source to start with. It was built in Visual Studio 2010 beta 1 so it’s likely a requirement in order to open.
+Just a few notes about the source to start with. EncodeHD is built in Visual Studio 2010 (VB.NET) so you'll need this to open the project.
 
-The binaries for EncodeHD are not included and should be taken from the latest build found here: http://dcunningham.net/encodehd
+The binaries for EncodeHD are not included and should be taken from the latest build found here: http://dcunningham.net/media-tools/encodehd/
 
 The required binaries are:
 
-- ffmpeg.exe – http://ffmpeg.arrozcru.org/autobuilds
+- ffmpeg.exe – http://oss.netfarm.it/mplayer-win32.php
+- libfaac.dll
 
 - MP4Box.dll – http://gpac.sourceforge.net
 - js32.dll
@@ -13,5 +14,3 @@ The required binaries are:
 
 - AtomicParsley.Exe – http://atomicparsley.sourceforge.net
 - zlib1.dll
-
-- SnarlConnector.dll – http://www.fullphat.net/

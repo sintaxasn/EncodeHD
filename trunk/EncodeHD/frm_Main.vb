@@ -275,8 +275,14 @@ Public Class frm_Main
                 EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_BLACKBERRY9000
             Case "BlackBerry (9500) Storm"
                 EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_BLACKBERRY9500
+            Case "HTC EVO 4G"
+                EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_HTCEVO4G
+            Case "iPad"
+                EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_IPAD
             Case "iPhone"
                 EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_IPHONE
+            Case "iPhone 4"
+                EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_IPHONE4
             Case "iPod 5G"
                 EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_IPOD5G
             Case "iPod Classic"
@@ -792,6 +798,16 @@ Public Class frm_Main
                 ' If the component is not found, throw an exception
                 If Not My.Computer.FileSystem.FileExists(str_AppFolder & "\" & str_Component) Then
                     Throw New Exception("Unable to find required component: " & str_Component)
+                End If
+            Next
+
+            ' Check for each component listed in the array
+            For Each str_Component In arr_RequiredNonGPLComponents
+                sub_DebugMessage("Checking for Non-GPL component: " & str_Component)
+
+                ' If the component is not found, throw an exception
+                If Not My.Computer.FileSystem.FileExists(str_AppFolder & "\" & str_Component) Then
+                    Throw New Exception("Unable to find required Non-GPL component: " & str_Component & ". You need to download this component separately so that " & My.Resources.App_Title & " can comply with the GPL licensing terms. Please visit the " & My.Resources.App_Title & " website for more information")
                 End If
             Next
 
@@ -1541,4 +1557,6 @@ Public Class frm_Main
     End Function
 
 End Class
+
+
 

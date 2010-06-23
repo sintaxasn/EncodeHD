@@ -1,5 +1,5 @@
 ﻿'' MediaInfoDLL - All info about media files, for DLL
-'' Copyright (C) 2002-2006 Jerome Martinez, Zen@MediaArea.net
+'' Copyright (C) 2002-2009 Jerome Martinez, Zen@MediaArea.net
 ''
 '' This library is free software; you can redistribute it and/or
 '' modify it under the terms of the GNU Lesser General Public
@@ -79,8 +79,8 @@ Public Class cls_MediaInfo
     Protected Overrides Sub Finalize()
         MediaInfo_Delete(Handle)
     End Sub
-    Function Open(ByVal FileName As String) As Integer
-        Return CInt(MediaInfo_Open(Handle, FileName))
+    Function Open(ByVal FileName As String) As System.UIntPtr
+        Return MediaInfo_Open(Handle, FileName)
     End Function
     Sub Close()
         MediaInfo_Close(Handle)
@@ -102,10 +102,7 @@ Public Class cls_MediaInfo
     End Function
     Function Count_Get(ByVal StreamKind As StreamKind, Optional ByVal StreamNumber As UInteger = UInteger.MaxValue) As Integer
         If StreamNumber = UInteger.MaxValue Then
-            Dim A As Long
-            A = 0
-            A = A - 1 'If you know how to have (IntPtr)(-1) easier, I am interested ;-)
-            Return CInt(MediaInfo_Count_Get(Handle, CType(StreamKind, UIntPtr), CType(A, IntPtr)))
+            Return CInt(MediaInfo_Count_Get(Handle, CType(StreamKind, UIntPtr), CType(-1, IntPtr)))
         Else
             Return CInt(MediaInfo_Count_Get(Handle, CType(StreamKind, UIntPtr), CType(StreamNumber, IntPtr)))
         End If
