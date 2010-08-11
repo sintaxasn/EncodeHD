@@ -65,7 +65,7 @@ Partial Class frm_Advanced
         '
         Me.cbx_PreferredAudioLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbx_PreferredAudioLanguage.FormattingEnabled = True
-        Me.cbx_PreferredAudioLanguage.Items.AddRange(New Object() {"Chinese", "Danish", "English", "Finnish", "French", "German", "Greek", "Italian", "Japanese", "Russian", "Spanish", "Swedish"})
+        Me.cbx_PreferredAudioLanguage.Items.AddRange(New Object() {"Chinese", "Danish", "Dutch", "English", "Finnish", "French", "German", "Greek", "Hebrew", "Italian", "Japanese", "Russian", "Spanish", "Swedish"})
         Me.cbx_PreferredAudioLanguage.Location = New System.Drawing.Point(119, 38)
         Me.cbx_PreferredAudioLanguage.Name = "cbx_PreferredAudioLanguage"
         Me.cbx_PreferredAudioLanguage.Size = New System.Drawing.Size(135, 21)

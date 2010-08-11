@@ -275,6 +275,8 @@ Public Class frm_Main
                 EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_BLACKBERRY9000
             Case "BlackBerry (9500) Storm"
                 EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_BLACKBERRY9500
+            Case "HTC Desire"
+                EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_HTCDESIRE
             Case "HTC EVO 4G"
                 EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_HTCEVO4G
             Case "iPad"
@@ -295,6 +297,8 @@ Public Class frm_Main
                 EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_NEXUSONE
             Case "Nokia E71"
                 EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_NOKIAE71
+            Case "Nokia N900"
+                EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_NOKIAN900
             Case "Playstation 3"
                 EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_PLAYSTATION3
             Case "PSP"
@@ -1377,6 +1381,7 @@ Public Class frm_Main
                 ' Prevent against invalid PlayTime being returned from MediaInfo
                 Dim strInputVideoDurationTemp As String = MediaInfo.Get_(StreamKind.General, 0, "PlayTime")
                 If strInputVideoDurationTemp.Contains("/") Then strInputVideoDurationTemp = strInputVideoDurationTemp.Substring(0, strInputVideoDurationTemp.IndexOf("/") - 1)
+                strInputVideoDurationTemp = strInputVideoDurationTemp.Replace(".", strLocaleDecimal)
                 intInputVideoDuration = CInt(CDbl(strInputVideoDurationTemp) / 1000)
             Else
                 Throw New Exception("Unable to determine the video duration")

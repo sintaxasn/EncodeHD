@@ -6,8 +6,8 @@ Public Class cls_MediaEncoder
 #Region "Declarations"
 
     ' FFmpeg defaults
-    Private FFMPEG_OPTIONS_COMMENT As String = "-comment ""Created using " & My.Resources.App_Title & " " & fvi_AppVersion.FileVersion & " - " & My.Resources.App_Company & """"
-    Private Const FFMPEG_OPTIONS_OVERWRITEEXISTINGFILES As String = "-y"
+    Private FFMPEG_OPTIONS_COMMENT As String = "-comment ""Created using " & My.Resources.App_Title & " " & fvi_AppVersion.FileVersion & " - " & My.Resources.App_Company & """ "
+    Private Const FFMPEG_OPTIONS_OVERWRITEEXISTINGFILES As String = "-y "
     Private Const FFMPEG_OPTIONS_COPY As String = "-threads 0"
     Private Const FFMPEG_OPTIONS_H264 As String = "-flags +loop " & _
                                                     "-cmp +chroma " & _
@@ -27,9 +27,9 @@ Public Class cls_MediaEncoder
                                                     "-qdiff 4 " & _
                                                     "-directpred 1 " & _
                                                     "-flags2 +fastpskip " & _
-                                                    "-threads 0"
+                                                    "-threads 0 "
 
-    Private Const FFMPEG_OPTIONS_MPEG4 As String = "-threads 8"
+    Private Const FFMPEG_OPTIONS_MPEG4 As String = "-threads 8 "
 
     ' -qmin 10 x264 recommended, 20 visualhub
     ' -subq 5 x264 recommended, 6 other source
@@ -528,25 +528,25 @@ Public Class cls_MediaEncoder
                                 _str_AppArguments = _str_AppArguments & " -acodec copy"
                             Else
                                 _str_AppArguments = _str_AppArguments & " -acodec " & cls_MediaEncoder.FFMPEG_CODEC_AUDIO_AAC
-                                ' _str_AppArguments = _str_AppArguments & " -ac 2"
+                                _str_AppArguments = _str_AppArguments & " -ac 2"
                                 _str_AppArguments = _str_AppArguments & " -ar " & _int_EncoderAudioSampleRate
                                 _str_AppArguments = _str_AppArguments & " -ab " & _int_EncoderAudioBitRate & "k"
                             End If
                         Case "AC3"
-                            ' Set up the audio stream mapping (if the audio stream is nonstandard)
-                            If _int_EncoderAudioStream <> 0 Then
-                                _str_AppArguments = _str_AppArguments & " -map 0:" & _int_EncoderAudioStream + 1
-                            End If
-                            _str_AppArguments = _str_AppArguments & " -acodec " & cls_MediaEncoder.FFMPEG_CODEC_AUDIO_AC3
-                            ' TODO - Fix 2 channel audio issue
-                            _str_AppArguments = _str_AppArguments & " -ac 2"
-                            _str_AppArguments = _str_AppArguments & " -ar " & _int_EncoderAudioSampleRate & "k"
-                            ' Ensure the bitrate is at least 128kb
-                            If _int_EncoderAudioBitRate < 128 Then
-                                _str_AppArguments = _str_AppArguments & " -ab 128k"
-                            Else
-                                _str_AppArguments = _str_AppArguments & " -ab " & _int_EncoderAudioBitRate & "k"
-                            End If
+                                ' Set up the audio stream mapping (if the audio stream is nonstandard)
+                                If _int_EncoderAudioStream <> 0 Then
+                                    _str_AppArguments = _str_AppArguments & " -map 0:" & _int_EncoderAudioStream + 1
+                                End If
+                                _str_AppArguments = _str_AppArguments & " -acodec " & cls_MediaEncoder.FFMPEG_CODEC_AUDIO_AC3
+                                ' TODO - Fix 2 channel audio issue
+                            ' _str_AppArguments = _str_AppArguments & " -ac 2"
+                            _str_AppArguments = _str_AppArguments & " -ar " & _int_EncoderAudioSampleRate
+                                ' Ensure the bitrate is at least 128kb
+                                If _int_EncoderAudioBitRate < 128 Then
+                                    _str_AppArguments = _str_AppArguments & " -ab 128k"
+                                Else
+                                    _str_AppArguments = _str_AppArguments & " -ab " & _int_EncoderAudioBitRate & "k"
+                                End If
 
                     End Select
 
@@ -629,42 +629,50 @@ Public Class cls_MediaEncoder
 
         If bln_EncodingInProgress Then
 
-            _str_Progress = strProgress
+            Try
 
-            ' Verify we've got a video stream
-            If strProgress.ToUpper.Contains("STREAM") And strProgress.ToUpper.Contains("VIDEO") Then
-                _bln_EncodingVideoStreamDetected = True
-            End If
-            ' Wait until we're mapping the streams to verify
-            If strProgress.ToUpper.Contains("STREAM") And strProgress.ToUpper.Contains("MAPPING") Then
-                If Not _bln_EncodingVideoStreamDetected Then
-                    Throw New Exception("No Video Stream was detected")
+                _str_Progress = strProgress
+
+                ' Verify we've got a video stream
+                If strProgress.ToUpper.Contains("STREAM") And strProgress.ToUpper.Contains("VIDEO") Then
+                    _bln_EncodingVideoStreamDetected = True
                 End If
-            End If
-
-            ' Get the current time position and percent complete in encoding and display as output
-            If strProgress.ToUpper.Contains("TIME=") Then
-                Dim _str_EncodingTime As String = strProgress.Trim.Substring(strProgress.ToUpper.IndexOf("TIME=") + 5)
-                _str_EncodingTime = _str_EncodingTime.Remove(_str_EncodingTime.IndexOf(" "), _str_EncodingTime.Length - _str_EncodingTime.IndexOf(" "))
-                _int_EncodingTimeCurrentPosition = CInt(FormatNumber(_str_EncodingTime.Replace(".", strLocaleDecimal), 0))
-                _int_PercentComplete = CInt(_int_EncodingTimeCurrentPosition / _int_EncoderVideoDuration * 100)
-            End If
-
-            ' Get the current file size (so we can determine if the file is encoding properly)
-            If strProgress.ToUpper.Contains("SIZE=") And Not strProgress.ToUpper.Contains("LIBX264 @") Then
-                Dim _str_EncodingSize As String = strProgress.Trim.Substring(strProgress.ToUpper.IndexOf("SIZE=") + 5, 8)
-                Dim _int_encodingSize As Integer = CInt(_str_EncodingSize.ToUpper.Trim.Replace("KB", Nothing).Replace(".", Nothing))
-                If _int_encodingSize = 0 Then
-                    _int_EncodingZeroFileSizeCount = _int_EncodingZeroFileSizeCount + 1
+                ' Wait until we're mapping the streams to verify
+                If strProgress.ToUpper.Contains("STREAM") And strProgress.ToUpper.Contains("MAPPING") Then
+                    If Not _bln_EncodingVideoStreamDetected Then
+                        Throw New Exception("No Video Stream was detected")
+                    End If
                 End If
-                ' After 20 checks, fail
-                If _int_EncodingZeroFileSizeCount > 20 Then
-                    Throw New Exception("Encoding has started but the filesize is not increasing. This may be as a result of an unsupported video or audio codec.")
-                End If
-            End If
 
-            ' Display all progress information
-            sub_DebugMessage(strProgress)
+                ' Get the current time position and percent complete in encoding and display as output
+                If strProgress.ToUpper.Contains("TIME=") Then
+                    Dim _str_EncodingTime As String = strProgress.Trim.Substring(strProgress.ToUpper.IndexOf("TIME=") + 5)
+                    _str_EncodingTime = _str_EncodingTime.Remove(_str_EncodingTime.IndexOf(" "), _str_EncodingTime.Length - _str_EncodingTime.IndexOf(" "))
+                    _int_EncodingTimeCurrentPosition = CInt(FormatNumber(_str_EncodingTime.Replace(".", strLocaleDecimal), 0))
+                    _int_PercentComplete = CInt(_int_EncodingTimeCurrentPosition / _int_EncoderVideoDuration * 100)
+                End If
+
+                ' Get the current file size (so we can determine if the file is encoding properly)
+                If strProgress.ToUpper.Contains("SIZE=") And Not strProgress.ToUpper.Contains("LIBX264 @") Then
+                    Dim _str_EncodingSize As String = strProgress.Trim.Substring(strProgress.ToUpper.IndexOf("SIZE=") + 5, 8)
+                    Dim _int_encodingSize As Integer = CInt(_str_EncodingSize.ToUpper.Trim.Replace("KB", Nothing).Replace(".", Nothing))
+                    If _int_encodingSize = 0 Then
+                        _int_EncodingZeroFileSizeCount = _int_EncodingZeroFileSizeCount + 1
+                    End If
+                    ' After 20 checks, fail
+                    If _int_EncodingZeroFileSizeCount > 20 Then
+                        Throw New Exception("Encoding has started but the filesize is not increasing. This may be as a result of an unsupported video or audio codec.")
+                    End If
+                End If
+
+                ' Display all progress information
+                sub_DebugMessage(strProgress)
+
+            Catch ex As Exception
+
+                sub_DebugMessage(_str_AppExecutable & " Error while getting progress information: " & ex.Message)
+
+            End Try
 
             ' If FFmpeg has encountered an error, throw a new exception
             'If strProgress.ToUpper.Contains("ERROR") Or strProgress.ToUpper.Contains("NULL @ ") Then

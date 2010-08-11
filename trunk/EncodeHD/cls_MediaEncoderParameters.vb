@@ -10,6 +10,7 @@
     Public Const DEVICE_NAME_BLACKBERRY8900 As String = "BLACKBERRY8900"
     Public Const DEVICE_NAME_BLACKBERRY9000 As String = "BLACKBERRY9000"
     Public Const DEVICE_NAME_BLACKBERRY9500 As String = "BLACKBERRY9500"
+    Public Const DEVICE_NAME_HTCDESIRE As String = "HTODESIRE"
     Public Const DEVICE_NAME_HTCEVO4G As String = "HTOEVO4G"
     Public Const DEVICE_NAME_IPAD As String = "IPAD"
     Public Const DEVICE_NAME_IPHONE As String = "IPHONE"
@@ -20,6 +21,7 @@
     Public Const DEVICE_NAME_IPODTOUCH As String = "IPODTOUCH"
     Public Const DEVICE_NAME_NEXUSONE As String = "NEXUSONE"
     Public Const DEVICE_NAME_NOKIAE71 As String = "NOKIAE71"
+    Public Const DEVICE_NAME_NOKIAN900 As String = "NOKIAN900"
     Public Const DEVICE_NAME_PLAYSTATION3 As String = "PLAYSTATION3"
     Public Const DEVICE_NAME_PSP As String = "PSP"
     Public Const DEVICE_NAME_TMOBILEG1 As String = "TMOBILEG1"
@@ -149,6 +151,10 @@
     Private SPEC_BLACKBERRY9500_AUDIO_CODECS_SUPPORTED As String() = {"AAC"}
     Private SPEC_BLACKBERRY9500_VIDEO_TVOUTPUT_SUPPORTED As Boolean = False
 
+    Private SPEC_HTCDESIRE_VIDEO_CODECS_SUPPORTED As String() = {"MPEG4", "H264"}
+    Private SPEC_HTCDESIRE_AUDIO_CODECS_SUPPORTED As String() = {"AAC"}
+    Private SPEC_HTCDESIRE_VIDEO_TVOUTPUT_SUPPORTED As Boolean = False
+
     Private SPEC_HTCEVO4G_VIDEO_CODECS_SUPPORTED As String() = {"MPEG4", "H264"}
     Private SPEC_HTCEVO4G_AUDIO_CODECS_SUPPORTED As String() = {"AAC"}
     Private SPEC_HTCEVO4G_VIDEO_TVOUTPUT_SUPPORTED As Boolean = True
@@ -188,6 +194,10 @@
     Private SPEC_NOKIAE71_VIDEO_CODECS_SUPPORTED As String() = {"MPEG4", "H264"}
     Private SPEC_NOKIAE71_AUDIO_CODECS_SUPPORTED As String() = {"AAC"}
     Private SPEC_NOKIAE71_VIDEO_TVOUTPUT_SUPPORTED As Boolean = False
+
+    Private SPEC_NOKIAN900_VIDEO_CODECS_SUPPORTED As String() = {"MPEG4", "H264"}
+    Private SPEC_NOKIAN900_AUDIO_CODECS_SUPPORTED As String() = {"AAC"}
+    Private SPEC_NOKIAN900_VIDEO_TVOUTPUT_SUPPORTED As Boolean = False
 
     Private SPEC_PLAYSTATION3_VIDEO_CODECS_SUPPORTED As String() = {"MPEG4", "H264"}
     Private SPEC_PLAYSTATION3_AUDIO_CODECS_SUPPORTED As String() = {"AAC"}
@@ -258,6 +268,8 @@
                     _str_SupportedCodecs = SPEC_BLACKBERRY9000_VIDEO_CODECS_SUPPORTED
                 Case DEVICE_NAME_BLACKBERRY9500
                     _str_SupportedCodecs = SPEC_BLACKBERRY9500_VIDEO_CODECS_SUPPORTED
+                Case DEVICE_NAME_HTCDESIRE
+                    _str_SupportedCodecs = SPEC_HTCDESIRE_VIDEO_CODECS_SUPPORTED
                 Case DEVICE_NAME_HTCEVO4G
                     _str_SupportedCodecs = SPEC_HTCEVO4G_VIDEO_CODECS_SUPPORTED
                 Case DEVICE_NAME_IPAD
@@ -278,6 +290,8 @@
                     _str_SupportedCodecs = SPEC_NEXUSONE_VIDEO_CODECS_SUPPORTED
                 Case DEVICE_NAME_NOKIAE71
                     _str_SupportedCodecs = SPEC_NOKIAE71_VIDEO_CODECS_SUPPORTED
+                Case DEVICE_NAME_NOKIAN900
+                    _str_SupportedCodecs = SPEC_NOKIAN900_VIDEO_CODECS_SUPPORTED
                 Case DEVICE_NAME_PLAYSTATION3
                     _str_SupportedCodecs = SPEC_PLAYSTATION3_VIDEO_CODECS_SUPPORTED
                 Case DEVICE_NAME_PSP
@@ -1045,7 +1059,7 @@
                 _stc_EncodingSpecifications.AUDIO_AAC_SAMPLERATE_MAX = 48000
                 _stc_EncodingSpecifications.AUDIO_AAC_CHANNELS_MAX = 2
 
-            Case DEVICE_NAME_NEXUSONE
+            Case DEVICE_NAME_NEXUSONE, DEVICE_NAME_HTCDESIRE, DEVICE_NAME_NOKIAN900
 
                 _stc_EncodingSpecifications.VIDEO_H264_FPS_30_RESOLUTION_WIDTH_MAX = 800
                 _stc_EncodingSpecifications.VIDEO_H264_FPS_30_RESOLUTION_HEIGHT_MAX = 480
