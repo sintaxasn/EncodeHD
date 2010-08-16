@@ -848,11 +848,14 @@
             _int_Input_Video_Height = _int_Output_Video_Height And _
             _int_Input_Video_Width = _int_Output_Video_Width And _
             _dbl_Input_Video_FPS = _dbl_Output_Video_FPS Then
-            ' Check the codecs to see if they match
-            If (_bln_Output_Video_Codec_H264Enabled And _str_Input_Video_Codec.ToUpper.Contains("AVC")) Or _
-                (Not _bln_Output_Video_Codec_H264Enabled And _str_Input_Video_Codec = "MPEG4") Then
-                sub_DebugMessage("The input video is the same as the intended output. The video stream will be copied from the source file")
-                _bln_Output_Video_Copy = True
+            ' Check to ensure we aren't running on the X360 (Stream copying fails most of the time due to B-Frames in source)
+            If Not _str_Output_Device = DEVICE_NAME_XBOX360 Then
+                ' Check the codecs to see if they match
+                If (_bln_Output_Video_Codec_H264Enabled And _str_Input_Video_Codec.ToUpper.Contains("AVC")) Or _
+                    (Not _bln_Output_Video_Codec_H264Enabled And _str_Input_Video_Codec = "MPEG4") Then
+                    sub_DebugMessage("The input video is the same as the intended output. The video stream will be copied from the source file")
+                    _bln_Output_Video_Copy = True
+                End If
             End If
         End If
 
@@ -1139,8 +1142,6 @@
                 _stc_EncodingSpecifications.AUDIO_AAC_CHANNELS_MAX = 2
 
             Case DEVICE_NAME_WESTERNDIGITALDV
-
-                _stc_EncodingSpecifications.VIDEO_FILE_EXTENSION = "M4V"
 
                 _stc_EncodingSpecifications.VIDEO_H264_FPS_24_RESOLUTION_WIDTH_MAX = 1920
                 _stc_EncodingSpecifications.VIDEO_H264_FPS_24_RESOLUTION_HEIGHT_MAX = 1080

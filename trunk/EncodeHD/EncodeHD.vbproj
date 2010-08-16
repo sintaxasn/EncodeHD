@@ -173,11 +173,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="EncodeHD.ico" />
-    <Content Include="SnarlConnector.dll">
     <None Include="Images\Paypal.gif" />
     <None Include="Images\imageTitleLeft.jpg" />
     <None Include="Images\imageTitleMiddle.jpg" />
     <None Include="Images\imageTitleRight.jpg" />
+    <Content Include="SnarlConnector.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
