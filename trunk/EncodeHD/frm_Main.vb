@@ -299,15 +299,15 @@ Public Class frm_Main
                 EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_NOKIAE71
             Case "Nokia N900"
                 EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_NOKIAN900
-            Case "Playstation 3"
+            Case "PlayStation 3"
                 EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_PLAYSTATION3
             Case "PSP"
                 EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_PSP
             Case "T-Mobile G1"
                 EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_TMOBILEG1
-            Case "Western Digital TV"
+            Case "WD TV"
                 EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_WESTERNDIGITALDV
-            Case "X-Box 360"
+            Case "Xbox 360"
                 EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_XBOX360
             Case "Youtube HD"
                 EncoderParameters.Output_Device = cls_MediaEncoderParameters.DEVICE_NAME_YOUTUBEHD

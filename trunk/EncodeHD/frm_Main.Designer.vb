@@ -67,7 +67,7 @@ Partial Class frm_Main
         '
         Me.cbx_ConversionDevice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbx_ConversionDevice.FormattingEnabled = True
-        Me.cbx_ConversionDevice.Items.AddRange(New Object() {"Apple TV", "BlackBerry (8100) Pearl", "BlackBerry (8200) Kickstart", "BlackBerry (8300) Curve", "BlackBerry (8700) Electron", "BlackBerry (8800) Indigo", "BlackBerry (8900) Javelin", "BlackBerry (9000) Bold", "BlackBerry (9500) Storm", "HTC Desire", "HTC EVO 4G", "iPad", "iPhone", "iPhone 4", "iPod 5G", "iPod Classic", "iPod Nano", "iPod Touch", "Nexus One", "Nokia E71", "Nokia N900", "Playstation 3", "PSP", "T-Mobile G1", "Western Digital TV", "Youtube HD", "X-Box 360", "Zune", "ZuneHD"})
+        Me.cbx_ConversionDevice.Items.AddRange(New Object() {"Apple TV", "BlackBerry (8100) Pearl", "BlackBerry (8200) Kickstart", "BlackBerry (8300) Curve", "BlackBerry (8700) Electron", "BlackBerry (8800) Indigo", "BlackBerry (8900) Javelin", "BlackBerry (9000) Bold", "BlackBerry (9500) Storm", "HTC Desire", "HTC EVO 4G", "iPad", "iPhone", "iPhone 4", "iPod 5G", "iPod Classic", "iPod Nano", "iPod Touch", "Nexus One", "Nokia E71", "Nokia N900", "PlayStation 3", "PSP", "T-Mobile G1", "WD TV", "Youtube HD", "Xbox 360", "Zune", "ZuneHD"})
         Me.cbx_ConversionDevice.Location = New System.Drawing.Point(12, 37)
         Me.cbx_ConversionDevice.Name = "cbx_ConversionDevice"
         Me.cbx_ConversionDevice.Size = New System.Drawing.Size(165, 21)
