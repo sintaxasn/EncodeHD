@@ -40,13 +40,13 @@ Partial Class frm_Main
         Me.pbx_ImageTitleRight = New System.Windows.Forms.PictureBox()
         Me.dlg_OpenFolder = New System.Windows.Forms.FolderBrowserDialog()
         Me.toolTip = New System.Windows.Forms.ToolTip(Me.components)
-        Me.cbx_StitchVideos = New System.Windows.Forms.CheckBox()
-        Me.cbx_OutputForTV = New System.Windows.Forms.CheckBox()
+        Me.cbx_TVOutput = New System.Windows.Forms.CheckBox()
         Me.btn_Advanced = New System.Windows.Forms.Button()
         Me.statusStrip = New System.Windows.Forms.StatusStrip()
         Me.toolStripStatusLabel = New System.Windows.Forms.ToolStripStatusLabel()
         Me.listView = New EncodeHD.cmp_ListViewPlus(Me.components)
         Me.clm_Files = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.cbx_StreamCopy = New System.Windows.Forms.CheckBox()
         CType(Me.pbx_ImageTitleMiddle, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbx_ImageTitleLeft, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbx_ImageTitleRight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -70,8 +70,9 @@ Partial Class frm_Main
         Me.cbx_ConversionDevice.Items.AddRange(New Object() {"Apple TV", "BlackBerry (8100) Pearl", "BlackBerry (8200) Kickstart", "BlackBerry (8300) Curve", "BlackBerry (8700) Electron", "BlackBerry (8800) Indigo", "BlackBerry (8900) Javelin", "BlackBerry (9000) Bold", "BlackBerry (9500) Storm", "HTC Desire", "HTC EVO 4G", "iPad", "iPhone", "iPhone 4", "iPod 5G", "iPod Classic", "iPod Nano", "iPod Touch", "Nexus One", "Nokia E71", "Nokia N900", "PlayStation 3", "PSP", "T-Mobile G1", "WD TV", "Youtube HD", "Xbox 360", "Zune", "ZuneHD"})
         Me.cbx_ConversionDevice.Location = New System.Drawing.Point(12, 37)
         Me.cbx_ConversionDevice.Name = "cbx_ConversionDevice"
-        Me.cbx_ConversionDevice.Size = New System.Drawing.Size(165, 21)
+        Me.cbx_ConversionDevice.Size = New System.Drawing.Size(146, 21)
         Me.cbx_ConversionDevice.TabIndex = 1
+        Me.toolTip.SetToolTip(Me.cbx_ConversionDevice, "Select the device profile you want to encode video to")
         '
         'dlg_OpenFile
         '
@@ -127,11 +128,14 @@ Partial Class frm_Main
         'cbx_H264Encoding
         '
         Me.cbx_H264Encoding.AutoSize = True
-        Me.cbx_H264Encoding.Location = New System.Drawing.Point(183, 39)
+        Me.cbx_H264Encoding.Location = New System.Drawing.Point(164, 39)
         Me.cbx_H264Encoding.Name = "cbx_H264Encoding"
-        Me.cbx_H264Encoding.Size = New System.Drawing.Size(103, 17)
+        Me.cbx_H264Encoding.Size = New System.Drawing.Size(55, 17)
         Me.cbx_H264Encoding.TabIndex = 44
-        Me.cbx_H264Encoding.Text = "&H.264 Encoding"
+        Me.cbx_H264Encoding.Text = "&H.264"
+        Me.toolTip.SetToolTip(Me.cbx_H264Encoding, "H.264 encoding provides better video quality and smaller file sizes at the expens" & _
+                "e of taking longer to encode. It's recommended that you leave this enabled unles" & _
+                "s it is grayed out by default.")
         Me.cbx_H264Encoding.UseVisualStyleBackColor = True
         '
         'cbx_AC3Passthrough
@@ -142,6 +146,9 @@ Partial Class frm_Main
         Me.cbx_AC3Passthrough.Size = New System.Drawing.Size(108, 17)
         Me.cbx_AC3Passthrough.TabIndex = 54
         Me.cbx_AC3Passthrough.Text = "A&C3 Passthrough"
+        Me.toolTip.SetToolTip(Me.cbx_AC3Passthrough, "AC3 Passthrough will, when possible, add an additional AC3 audio stream (ie, 5.1 " & _
+                "audio) to the output file as well as the standard 2 channel AAC stream that is c" & _
+                "reated.")
         Me.cbx_AC3Passthrough.UseVisualStyleBackColor = True
         '
         'cbx_AutoSplit4GB
@@ -196,31 +203,17 @@ Partial Class frm_Main
         Me.pbx_ImageTitleRight.TabIndex = 60
         Me.pbx_ImageTitleRight.TabStop = False
         '
-        'cbx_StitchVideos
+        'cbx_TVOutput
         '
-        Me.cbx_StitchVideos.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.cbx_StitchVideos.AutoSize = True
-        Me.cbx_StitchVideos.Location = New System.Drawing.Point(277, 203)
-        Me.cbx_StitchVideos.Name = "cbx_StitchVideos"
-        Me.cbx_StitchVideos.Size = New System.Drawing.Size(134, 17)
-        Me.cbx_StitchVideos.TabIndex = 62
-        Me.cbx_StitchVideos.Text = "S&titch Videos Together"
-        Me.toolTip.SetToolTip(Me.cbx_StitchVideos, "Once all videos are encoded, a new video will be created with all of these videos" & _
-                " combines in order. Useful for merging CD1, CD2 etc")
-        Me.cbx_StitchVideos.UseVisualStyleBackColor = True
-        Me.cbx_StitchVideos.Visible = False
-        '
-        'cbx_OutputForTV
-        '
-        Me.cbx_OutputForTV.AutoSize = True
-        Me.cbx_OutputForTV.Location = New System.Drawing.Point(297, 39)
-        Me.cbx_OutputForTV.Name = "cbx_OutputForTV"
-        Me.cbx_OutputForTV.Size = New System.Drawing.Size(90, 17)
-        Me.cbx_OutputForTV.TabIndex = 63
-        Me.cbx_OutputForTV.Text = "&Output for TV"
-        Me.toolTip.SetToolTip(Me.cbx_OutputForTV, "Certain devices (such as the iPod) can be connected to a TV for output. Select th" & _
+        Me.cbx_TVOutput.AutoSize = True
+        Me.cbx_TVOutput.Location = New System.Drawing.Point(317, 39)
+        Me.cbx_TVOutput.Name = "cbx_TVOutput"
+        Me.cbx_TVOutput.Size = New System.Drawing.Size(75, 17)
+        Me.cbx_TVOutput.TabIndex = 63
+        Me.cbx_TVOutput.Text = "&TV Output"
+        Me.toolTip.SetToolTip(Me.cbx_TVOutput, "Certain devices (such as the iPod) can be connected to a TV for output. Select th" & _
                 "is option to format the output video for best display on a TV.")
-        Me.cbx_OutputForTV.UseVisualStyleBackColor = True
+        Me.cbx_TVOutput.UseVisualStyleBackColor = True
         '
         'btn_Advanced
         '
@@ -271,15 +264,26 @@ Partial Class frm_Main
         Me.clm_Files.Text = "Drop video files below"
         Me.clm_Files.Width = 516
         '
+        'cbx_StreamCopy
+        '
+        Me.cbx_StreamCopy.AutoSize = True
+        Me.cbx_StreamCopy.Location = New System.Drawing.Point(225, 39)
+        Me.cbx_StreamCopy.Name = "cbx_StreamCopy"
+        Me.cbx_StreamCopy.Size = New System.Drawing.Size(86, 17)
+        Me.cbx_StreamCopy.TabIndex = 66
+        Me.cbx_StreamCopy.Text = "&Stream Copy"
+        Me.toolTip.SetToolTip(Me.cbx_StreamCopy, resources.GetString("cbx_StreamCopy.ToolTip"))
+        Me.cbx_StreamCopy.UseVisualStyleBackColor = True
+        '
         'frm_Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(518, 276)
+        Me.Controls.Add(Me.cbx_StreamCopy)
         Me.Controls.Add(Me.statusStrip)
         Me.Controls.Add(Me.btn_Advanced)
-        Me.Controls.Add(Me.cbx_OutputForTV)
-        Me.Controls.Add(Me.cbx_StitchVideos)
+        Me.Controls.Add(Me.cbx_TVOutput)
         Me.Controls.Add(Me.pbx_ImageTitleLeft)
         Me.Controls.Add(Me.pbx_ImageTitleRight)
         Me.Controls.Add(Me.pbx_ImageTitleMiddle)
@@ -327,10 +331,10 @@ Partial Class frm_Main
     Friend WithEvents pbx_ImageTitleRight As System.Windows.Forms.PictureBox
     Friend WithEvents dlg_OpenFolder As System.Windows.Forms.FolderBrowserDialog
     Friend WithEvents toolTip As System.Windows.Forms.ToolTip
-    Friend WithEvents cbx_StitchVideos As System.Windows.Forms.CheckBox
-    Friend WithEvents cbx_OutputForTV As System.Windows.Forms.CheckBox
+    Friend WithEvents cbx_TVOutput As System.Windows.Forms.CheckBox
     Friend WithEvents btn_Advanced As System.Windows.Forms.Button
     Friend WithEvents statusStrip As System.Windows.Forms.StatusStrip
     Friend WithEvents toolStripStatusLabel As System.Windows.Forms.ToolStripStatusLabel
+    Friend WithEvents cbx_StreamCopy As System.Windows.Forms.CheckBox
 
 End Class

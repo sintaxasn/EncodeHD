@@ -52,6 +52,7 @@
 
     Private _bln_Output_Video_Codec_H264Supported As Boolean = False
     Private _bln_Output_Video_Codec_H264Enabled As Boolean = False
+    Private _bln_Output_Video_Codec_StreamCopyEnabled As Boolean = False
     Private _bln_Output_Video_Resolution_OutputForTV As Boolean = False
     Private _bln_Output_Audio_Codec_AC3PassThroughEnabled As Boolean = False
 
@@ -366,6 +367,16 @@
         End Get
         Set(ByVal value As Boolean)
             _bln_Output_Video_Codec_H264Enabled = value
+        End Set
+    End Property
+
+    ' Sets / Gets whether Stream Copying is enabled
+    Public Property Output_Video_Codec_StreamCopyEnabled() As Boolean
+        Get
+            Return _bln_Output_Video_Codec_StreamCopyEnabled
+        End Get
+        Set(ByVal value As Boolean)
+            _bln_Output_Video_Codec_StreamCopyEnabled = value
         End Set
     End Property
 
@@ -848,8 +859,8 @@
             _int_Input_Video_Height = _int_Output_Video_Height And _
             _int_Input_Video_Width = _int_Output_Video_Width And _
             _dbl_Input_Video_FPS = _dbl_Output_Video_FPS Then
-            ' Check to ensure we aren't running on the X360 (Stream copying fails most of the time due to B-Frames in source)
-            If Not _str_Output_Device = DEVICE_NAME_XBOX360 Then
+            ' If Stream Copying has been selected
+            If _bln_Output_Video_Codec_StreamCopyEnabled Then
                 ' Check the codecs to see if they match
                 If (_bln_Output_Video_Codec_H264Enabled And _str_Input_Video_Codec.ToUpper.Contains("AVC")) Or _
                     (Not _bln_Output_Video_Codec_H264Enabled And _str_Input_Video_Codec = "MPEG4") Then

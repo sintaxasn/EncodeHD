@@ -48,14 +48,14 @@ Public Class frm_Main
 
         ' Set up form values
         cbx_H264Encoding.Checked = bln_SettingsUIH264EncodingChecked
-        cbx_OutputForTV.Checked = bln_SettingsUIOutputForTVChecked
+        cbx_StreamCopy.Checked = bln_SettingsUIStreamCopyChecked
+        cbx_TVOutput.Checked = bln_SettingsUIOutputForTVChecked
         cbx_AC3Passthrough.Checked = bln_SettingsUIAC3PassthroughChecked
         cbx_ConversionDevice.SelectedIndex = int_SettingsUIConversionDevice
         If Not str_SettingsUIOutputFolder = Nothing Then
             cbx_OutputFolder.Checked = True
             toolTip.SetToolTip(cbx_OutputFolder, "Output Folder: " & str_SettingsUIOutputFolder)
         End If
-        cbx_StitchVideos.Checked = bln_SettingsSessionStitchMode
         cbx_AutoSplit4GB.Checked = bln_SettingsUIAutoSplitChecked
 
         ' Reset form to defaults
@@ -79,7 +79,8 @@ Public Class frm_Main
 
         ' Transfer form values for saving
         bln_SettingsUIH264EncodingChecked = cbx_H264Encoding.Checked
-        bln_SettingsUIOutputForTVChecked = cbx_OutputForTV.Checked
+        bln_SettingsUIStreamCopyChecked = cbx_StreamCopy.Checked
+        bln_SettingsUIOutputForTVChecked = cbx_TVOutput.Checked
         bln_SettingsUIAC3PassthroughChecked = cbx_AC3Passthrough.Checked
         int_SettingsUIConversionDevice = cbx_ConversionDevice.SelectedIndex
 
@@ -323,20 +324,20 @@ Public Class frm_Main
         If EncoderParameters.Output_Video_Codec_H264Supported Then
             sub_DebugMessage("H.264 Encoding is supported on this device type")
             cbx_H264Encoding.Enabled = True
+            cbx_StreamCopy.Enabled = True
         Else
             sub_DebugMessage("H.264 Encoding is not supported on this device type")
-            cbx_H264Encoding.Checked = False
             cbx_H264Encoding.Enabled = False
+            cbx_StreamCopy.Enabled = False
         End If
 
         ' If Formatting for TV is not available, disable the Checkbox option
         If EncoderParameters.Output_Video_Codec_TVOutputSupported Then
             sub_DebugMessage("Formatting for TV is supported on this device type")
-            cbx_OutputForTV.Enabled = True
+            cbx_TVOutput.Enabled = True
         Else
             sub_DebugMessage("Formatting for TV is not supported on this device type")
-            cbx_OutputForTV.Checked = False
-            cbx_OutputForTV.Enabled = False
+            cbx_TVOutput.Enabled = False
         End If
 
         ' If AC3Passthrough is not available, disable the Checkbox option
@@ -345,7 +346,6 @@ Public Class frm_Main
             cbx_AC3Passthrough.Enabled = True
         Else
             sub_DebugMessage("AC3 Passthrough is not supported on this device type")
-            cbx_AC3Passthrough.Checked = False
             cbx_AC3Passthrough.Enabled = False
         End If
 
@@ -372,29 +372,6 @@ Public Class frm_Main
             str_SettingsUIOutputFolder = Nothing
             toolTip.SetToolTip(cbx_OutputFolder, Nothing)
             sub_DebugMessage("Output Folder Disabled")
-        End If
-
-    End Sub
-
-    ' Stitch Videos Together Checkbox Change
-    Private Sub cbx_StitchVideos_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbx_StitchVideos.CheckedChanged
-
-        sub_DebugMessage()
-        sub_DebugMessage("* Stitch Videos Together Check Changed *")
-
-        If cbx_StitchVideos.Checked Then
-            bln_SettingsSessionStitchMode = True
-            sub_DebugMessage("Stitch Mode Enabled")
-
-            ' Disable AutoSplit
-            cbx_AutoSplit4GB.Enabled = False
-        Else
-            bln_SettingsSessionStitchMode = False
-            sub_DebugMessage("Stitch Mode Disabled")
-
-            ' Disable AutoSplit
-            cbx_AutoSplit4GB.Enabled = True
-
         End If
 
     End Sub
@@ -431,7 +408,6 @@ Public Class frm_Main
                 btn_ClearAll.Enabled = True
                 cbx_ConversionDevice.Enabled = True
                 cbx_OutputFolder.Enabled = True
-                cbx_StitchVideos.Enabled = True
                 cbx_AutoSplit4GB.Enabled = True
                 listView.AllowDrop = True
                 btn_Advanced.Enabled = True
@@ -439,15 +415,17 @@ Public Class frm_Main
                 toolStripStatusLabel.Text = ""
                 If EncoderParameters.Output_Video_Codec_H264Supported Then
                     cbx_H264Encoding.Enabled = True
+                    cbx_StreamCopy.Enabled = True
                 Else
                     cbx_H264Encoding.Checked = False
                     cbx_H264Encoding.Enabled = False
+                    cbx_StreamCopy.Enabled = False
                 End If
                 If EncoderParameters.Output_Video_Codec_TVOutputSupported Then
-                    cbx_OutputForTV.Enabled = True
+                    cbx_TVOutput.Enabled = True
                 Else
-                    cbx_OutputForTV.Checked = False
-                    cbx_OutputForTV.Enabled = False
+                    cbx_TVOutput.Checked = False
+                    cbx_TVOutput.Enabled = False
                 End If
                 If EncoderParameters.Output_Audio_Codec_AC3PassThroughSupported Then
                     cbx_AC3Passthrough.Enabled = True
@@ -464,10 +442,10 @@ Public Class frm_Main
                 btn_ClearAll.Enabled = False
                 cbx_ConversionDevice.Enabled = False
                 cbx_H264Encoding.Enabled = False
-                cbx_OutputForTV.Enabled = False
+                cbx_StreamCopy.Enabled = False
+                cbx_TVOutput.Enabled = False
                 cbx_AC3Passthrough.Enabled = False
                 cbx_OutputFolder.Enabled = False
-                cbx_StitchVideos.Enabled = False
                 cbx_AutoSplit4GB.Enabled = False
                 listView.AllowDrop = False
                 btn_Advanced.Enabled = False
@@ -1545,7 +1523,8 @@ Public Class frm_Main
             ' UI options
             sub_DebugMessage("Passing UI selections through filtering framework...")
             EncoderParameters.Output_Video_Codec_H264Enabled = cbx_H264Encoding.Checked
-            EncoderParameters.Output_Video_Resolution_OutputForTV = cbx_OutputForTV.Checked
+            EncoderParameters.Output_Video_Codec_StreamCopyEnabled = cbx_StreamCopy.Checked
+            EncoderParameters.Output_Video_Resolution_OutputForTV = cbx_TVOutput.Checked
             EncoderParameters.Output_Audio_Codec_AC3PassThroughEnabled = cbx_AC3Passthrough.Checked
 
             ' Configure the output parameters

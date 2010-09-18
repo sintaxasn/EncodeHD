@@ -2,7 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
   <Profiles />
   <Settings>
-    <Setting Name="SettingsDebugMode" Roaming="true" Type="System.Boolean" Scope="User">
+    <Setting Name="SettingsDebugLogging" Roaming="true" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="SettingsUIH264EncodingChecked" Roaming="true" Type="System.Boolean" Scope="User">
@@ -34,6 +34,9 @@
     </Setting>
     <Setting Name="SettingsUIAdvancedSoftSubsChecked" Roaming="true" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="SettingsUIStreamCopyChecked" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

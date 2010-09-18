@@ -34,8 +34,9 @@ Module mdl_Globals
     Public obj_LogFile As System.IO.TextWriter
 
     ' Get Settings from .Exe.Settings file
-    Public bln_SettingsDebugMode As Boolean = My.Settings.SettingsDebugMode
+    Public bln_SettingsDebugLogging As Boolean = My.Settings.SettingsDebugLogging
     Public bln_SettingsUIH264EncodingChecked As Boolean = My.Settings.SettingsUIH264EncodingChecked
+    Public bln_SettingsUIStreamCopyChecked As Boolean = My.Settings.SettingsUIStreamCopyChecked
     Public bln_SettingsUIOutputForTVChecked As Boolean = My.Settings.SettingsUIOutputForTVChecked
     Public bln_SettingsUIAC3PassthroughChecked As Boolean = My.Settings.SettingsUIAC3PassthroughChecked
     Public int_SettingsUIConversionDevice As Integer = My.Settings.SettingsUIConversionDevice
@@ -69,7 +70,7 @@ Module mdl_Globals
         End If
 
         ' Write to the external logfile if running in Debug Mode
-        If bln_SettingsDebugMode And Not obj_LogFile Is Nothing Then
+        If bln_SettingsDebugLogging And Not obj_LogFile Is Nothing Then
             obj_LogFile.WriteLine(str_DebugMessage)
             obj_LogFile.Flush()
         Else
@@ -118,7 +119,7 @@ Module mdl_Globals
         sub_DebugMessage("* Application Initialisation *")
 
         ' Create the logfile if in Debug mode, otherwise, just output to the console...
-        If bln_SettingsDebugMode Then
+        If bln_SettingsDebugLogging Then
             sub_DebugMessage("Running in Debug Mode")
             Try
                 ' Verify the Log Folder Exists, if not, create it
@@ -136,7 +137,7 @@ Module mdl_Globals
 
             Catch ex As Exception
                 MessageBox.Show("Unable to create Debug log file: " & ex.Message & ". Debugging switched off", My.Resources.App_Title, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                bln_SettingsDebugMode = False
+                bln_SettingsDebugLogging = False
             End Try
         End If
 
@@ -165,6 +166,7 @@ Module mdl_Globals
         ' Save Settings
         sub_DebugMessage("Saving Settings...")
         My.Settings.SettingsUIH264EncodingChecked = bln_SettingsUIH264EncodingChecked
+        My.Settings.SettingsUIStreamCopyChecked = bln_SettingsUIStreamCopyChecked
         My.Settings.SettingsUIOutputForTVChecked = bln_SettingsUIOutputForTVChecked
         My.Settings.SettingsUIAC3PassthroughChecked = bln_SettingsUIAC3PassthroughChecked
         My.Settings.SettingsUIConversionDevice = int_SettingsUIConversionDevice
@@ -176,7 +178,7 @@ Module mdl_Globals
         My.Settings.Save()
 
         ' Close the logfile
-        If bln_SettingsDebugMode Then
+        If bln_SettingsDebugLogging Then
             sub_DebugMessage("Closing Logfile...")
             sub_DebugMessage()
             obj_LogFile.Close()
