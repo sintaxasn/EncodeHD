@@ -783,15 +783,15 @@ Public Class frm_Main
                 End If
             Next
 
-            ' Check for each component listed in the array
-            For Each str_Component In arr_RequiredNonGPLComponents
-                sub_DebugMessage("Checking for Non-GPL component: " & str_Component)
+            '' Check for each component listed in the array
+            'For Each str_Component In arr_RequiredNonGPLComponents
+            '    sub_DebugMessage("Checking for Non-GPL component: " & str_Component)
 
-                ' If the component is not found, throw an exception
-                If Not My.Computer.FileSystem.FileExists(str_AppFolder & "\" & str_Component) Then
-                    Throw New Exception("Unable to find required Non-GPL component: " & str_Component & ". You need to download this component separately so that " & My.Resources.App_Title & " can comply with the GPL licensing terms. Please visit the " & My.Resources.App_Title & " website for more information")
-                End If
-            Next
+            '    ' If the component is not found, throw an exception
+            '    If Not My.Computer.FileSystem.FileExists(str_AppFolder & "\" & str_Component) Then
+            '        Throw New Exception("Unable to find required Non-GPL component: " & str_Component & ". You need to download this component separately so that " & My.Resources.App_Title & " can comply with the GPL licensing terms. Please visit the " & My.Resources.App_Title & " website for more information")
+            '    End If
+            'Next
 
         Catch ex As Exception
             ' Display error and exit the application

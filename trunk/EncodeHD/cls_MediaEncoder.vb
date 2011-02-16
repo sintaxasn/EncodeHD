@@ -38,8 +38,8 @@ Public Class cls_MediaEncoder
     Public Const FFMPEG_CODEC_VIDEO_H264 As String = "libx264"
     Public Const FFMPEG_CODEC_VIDEO_MPEG4 As String = "mpeg4"
     Public Const FFMPEG_CODEC_VIDEO_AVI As String = "libxvid"
-    Public Const FFMPEG_CODEC_AUDIO_AAC As String = "libfaac"
-    ' Public Const FFMPEG_CODEC_AUDIO_AAC As String = "aac -strict experimental"
+    ' Public Const FFMPEG_CODEC_AUDIO_AAC As String = "libfaac"
+    Public Const FFMPEG_CODEC_AUDIO_AAC As String = "aac -strict experimental"
     Public Const FFMPEG_CODEC_AUDIO_AC3 As String = "ac3"
     Public Const FFMPEG_CODEC_AUDIO_MP3 As String = "libmp3lame"
 

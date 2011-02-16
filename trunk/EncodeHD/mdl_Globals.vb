@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports System.Management
 Imports Snarl
 
 Module mdl_Globals
@@ -8,13 +9,13 @@ Module mdl_Globals
     Public strLocaleComma As String = Chr(90 - Asc(strLocaleDecimal))
 
     ' OS Information
-    Public str_OSFullName As String = My.Computer.Info.OSFullName
-    Public str_OSVersion As String = My.Computer.Info.OSVersion
-    Public str_OSArchitecture As String = Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE")
+    Public str_OSFullName As String = Nothing
+    Public str_OSVersion As String = Nothing
+    Public str_OSArchitecture As String = Nothing
 
     ' Application Information
     Public arr_RequiredComponents() As String = {"ffmpeg.exe", "mediainfo.dll", "snarlconnector.dll", "atomicparsley.exe", "mp4box.exe", "js32.dll", "zlib1.dll"}
-    Public arr_RequiredNonGPLComponents() As String = {"libfaac.dll"}
+    ' Public arr_RequiredNonGPLComponents() As String = {"libfaac.dll"}
 
     Public str_AppFolder As String = My.Application.Info.DirectoryPath
     Public str_LogFolder As String = Path.Combine(My.Computer.FileSystem.SpecialDirectories.MyDocuments, "EncodeHD Log Files")
@@ -28,7 +29,7 @@ Module mdl_Globals
     Public bln_AppStartup As Boolean = False
 
     ' Supported Formats List
-    Public arrSupportedMediaFormats() As String = {".ASF", ".AVI", ".DIVX", ".DVR-MS", ".FLV", ".M2V", ".M4V", ".MKV", ".MOV", ".MP4", ".MPG", ".MPEG", ".MTS", ".M2T", ".M2TS", ".OGM", ".OGG", ".RM", ".RMVB", ".TS", ".VOB", ".WMV", ".XVID"}
+    Public arrSupportedMediaFormats() As String = {".ASF", ".AVI", ".DIVX", ".DVR-MS", ".FLV", ".M2V", ".M4V", ".MKV", ".MOV", ".MP4", ".MPG", ".MPEG", ".MTS", ".M2T", ".M2TS", ".OGM", ".OGG", ".RM", ".RMVB", ".TS", ".VOB", ".WMV", ".WTV", ".XVID"}
 
     ' Object Setup
     Public obj_LogFile As System.IO.TextWriter
@@ -147,6 +148,19 @@ Module mdl_Globals
         sub_DebugMessage("----------------------------------------------------------------------------------")
         sub_DebugMessage(My.Resources.App_Title & " " & fvi_AppVersion.FileVersion & " - " & My.Resources.App_Company)
         frm_Main.Text = My.Resources.App_Title & " " & fvi_AppVersion.FileVersion
+
+        ' Get OS info
+        Try
+            str_OSFullName = My.Computer.Info.OSFullName
+            str_OSVersion = My.Computer.Info.OSVersion
+            str_OSArchitecture = Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE")
+        Catch exManagement As System.Management.ManagementException
+            MessageBox.Show("Unable to get OS information (ManagementException): " & exManagement.Message)
+        Catch exSecurity As Security.SecurityException
+            MessageBox.Show("Unable to get OS information (SecurityException): " & exSecurity.Message)
+        Catch ex As Exception
+            MessageBox.Show("Unable to get OS information: " & ex.Message)
+        End Try
 
         sub_DebugMessage()
         sub_DebugMessage("* Debug Info *")
